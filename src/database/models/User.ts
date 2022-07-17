@@ -9,7 +9,13 @@ class User extends Model {
 }
   
 User.init({
-  name: DataTypes.STRING
+  id: {
+    primaryKey: true,
+    type: DataTypes.INTEGER
+  },
+  name: DataTypes.STRING,
+  email: DataTypes.STRING,
+  password: DataTypes.STRING
   },{
   sequelize,
   modelName: 'users',
