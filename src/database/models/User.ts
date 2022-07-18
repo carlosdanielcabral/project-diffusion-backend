@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '.';
+import Post from './Post';
 
 class User extends Model {
   public id: number;
@@ -21,5 +22,8 @@ User.init({
   modelName: 'users',
   timestamps: false,
 });
+
+User.hasMany(Post, { foreignKey: 'author' as 'authorId' });
+Post.belongsTo(User, { foreignKey: 'author', as: 'authorId' });
 
 export default User;
