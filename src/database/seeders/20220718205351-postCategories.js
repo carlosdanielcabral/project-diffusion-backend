@@ -2,7 +2,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('post_categories', [{
       post_id: 1,
-      category_id: 2
+      category_id: 1
     }, {
       post_id: 1,
       category_id: 2
