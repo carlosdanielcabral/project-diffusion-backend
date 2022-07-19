@@ -3,7 +3,7 @@ import { Options } from 'sequelize';
 
 dotenv.config();
 
-const config: Options = {
+const config = {
   username: process.env.MYSQL_USER || 'root',
   password: process.env.MYSQL_PASSWORD || 'root',
   database: process.env.MYSQL_DATABASE || 'diffusion',
