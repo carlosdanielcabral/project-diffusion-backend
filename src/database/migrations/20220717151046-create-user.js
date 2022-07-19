@@ -1,5 +1,3 @@
-const { DataTypes } = require("sequelize/types");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('users', {
@@ -19,7 +17,7 @@ module.exports = {
       },
       password: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       }
     });
   },
