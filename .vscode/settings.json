@@ -1,0 +1,12 @@
+{
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "editor.tabCompletion": "on",
+  "editor.tabSize": 2,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "explorer.confirmDelete": false,
+  "git.autofetch": true,
+  "editor.lineHeight": 1.5,
+  "editor.fontFamily": "'Roboto', 'Droid Sans Mono', 'monospace', monospace",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+}
