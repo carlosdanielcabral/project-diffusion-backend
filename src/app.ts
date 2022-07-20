@@ -1,7 +1,9 @@
 import express, { Express } from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 import RouteFactory from './factories/RouteFactory';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
+import swaggerDocument from '../swagger.json';
 
 class App {
   private _app: Express;
@@ -22,6 +24,11 @@ class App {
     this._app.use(cors());
     const route = RouteFactory();
     this._app.use('/', route.router);
+    this._app.use(
+      '/api-docs',
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument),
+    );
     this._app.use(ErrorMiddleware);
   };
 
