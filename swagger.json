@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Diffusion API",
+    "description": "Esta é a documentação da API do app Diffusion",
+    "contact": {
+      "name": "Carlos Daniel Cabral",
+      "email": "dev.carlosdaniel@gmail.com"
+    }
+  },
+  "version": "1.0.0",
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": ["User"],
+        "description": "Salva os dados da pessoa usuária no banco de dados",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#components/schemas/RequestUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Retorna os dados da pessoa usuária que foram salvos",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#components/schemas/FullUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FullUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "User 01"
+          },
+          "email": {
+            "type": "string",
+            "example": "user01@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "user01password"
+          }
+        }
+      },
+      "RequestUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "User 01"
+          },
+          "email": {
+            "type": "string",
+            "example": "user01@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "user01password"
+          }
+        }
+      }
+    }
+  }
+}
