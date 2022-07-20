@@ -6,6 +6,6 @@ const UserFactory = () => {
   const service = new UserService(User);
   const controller = new UserController(service);
   return controller;
-}
+};
 
 export default UserFactory;

@@ -5,15 +5,15 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
         type: Sequelize.STRING,
-        unique: true
-      }
+        unique: true,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('categories');
-  }
+  },
 };

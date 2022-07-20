@@ -1,3 +1,6 @@
 /*.js
 node_modules
 dist
+src/database/seeders
+src/database/migrations
+src/database/config

@@ -3,6 +3,7 @@ import UserRouter from './UserRouter';
 
 class Route {
   private _router: Router;
+
   private _user: UserRouter;
 
   constructor(router: Router, user: UserRouter) {
@@ -13,7 +14,7 @@ class Route {
 
   config = (): void => {
     this._router.use('/user', this._user.router);
-  }
+  };
 
   get router() {
     return this._router;

@@ -12,7 +12,7 @@ class UserService implements IUserService {
     const hasUser = await this._model.findOne({ where: { email: data.email } });
     if (hasUser) throw new ErrorHandler(409, 'Email already exists');
     return this._model.create(data);
-  }
+  };
 }
 
 export default UserService;

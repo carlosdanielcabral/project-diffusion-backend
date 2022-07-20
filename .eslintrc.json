@@ -6,7 +6,6 @@
   "extends": [
     "airbnb-base",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
   "globals": {
@@ -29,6 +28,14 @@
       "ignorePackages",
       {
         "ts": "never"
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
       }
     ]
   },

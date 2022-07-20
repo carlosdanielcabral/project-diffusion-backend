@@ -9,7 +9,7 @@ class App {
   constructor() {
     this._app = express();
 
-    this._app.get('/', (req, res) => res.status(200).json({ runnig: true }))
+    this._app.get('/', (req, res) => res.status(200).json({ runnig: true }));
     this.config();
   }
 
@@ -25,8 +25,10 @@ class App {
     this._app.use(ErrorMiddleware);
   };
 
-  listen = (port: number) => 
-    this._app.listen(port, () => console.log(`Aplicação online na porta ${port}`));
+  listen = (port: number) =>
+    this._app.listen(port, () =>
+      console.log(`Aplicação online na porta ${port}`),
+    );
 }
 
 export default App;

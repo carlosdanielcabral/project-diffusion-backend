@@ -2,5 +2,7 @@ export const createdUser = {
   id: 1,
   name: 'User 01',
   email: 'user01@email.com',
-  password: 'user01'
+  password: 'user01',
 };
+
+export const test = 'test';

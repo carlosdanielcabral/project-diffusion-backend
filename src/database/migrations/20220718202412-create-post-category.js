@@ -9,9 +9,9 @@ module.exports = {
         primaryKey: true,
         references: {
           model: 'posts',
-          key: 'id'
+          key: 'id',
         },
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       categoryId: {
         allowNull: false,
@@ -21,13 +21,13 @@ module.exports = {
         primaryKey: true,
         references: {
           model: 'categories',
-          key: 'id'
+          key: 'id',
         },
-        type: Sequelize.INTEGER
-      }
+        type: Sequelize.INTEGER,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('post_categories');
-  }
+  },
 };

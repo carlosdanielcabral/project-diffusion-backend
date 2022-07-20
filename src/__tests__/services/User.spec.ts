@@ -1,8 +1,6 @@
-import chai, { expect } from 'chai';
-import { equal } from 'joi';
+import { expect } from 'chai';
 import Sinon from 'sinon';
 import User from '../../database/models/User';
-import ErrorHandler from '../../helpers/ErrorHandler';
 import UserService from '../../services/UserService';
 import { createdUser } from '../mocks/user';
 
@@ -18,8 +16,7 @@ describe('Testa o service User', () => {
     (User.create as Sinon.SinonStub).restore();
   });
 
-  it('02) Verifica se não é possível salvar um usuário se o email já existe no banco',
-  async () => {
+  it('02) Verifica se não é possível salvar um usuário se o email já existe no banco', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     const { id, ...user } = createdUser;
@@ -29,5 +26,5 @@ describe('Testa o service User', () => {
       expect(err.message).to.be.equal('Email already exists');
     }
     (User.findOne as Sinon.SinonStub).restore();
-  })
+  });
 });

@@ -25,4 +25,4 @@ describe('Testa o controller User', () => {
     (User.findOne as Sinon.SinonStub).restore();
     (User.create as Sinon.SinonStub).restore();
   });
-})
+});
