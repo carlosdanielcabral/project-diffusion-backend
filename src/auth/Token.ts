@@ -34,7 +34,7 @@ class Token {
         data: { id },
       } = jwt.verify(token, this.secret) as jwt.JwtPayload;
 
-      const user = await User.findOne(id);
+      const user = await User.findOne({ where: { id } });
 
       if (!user) {
         throw new ErrorHandler(401, 'Invalid token');
