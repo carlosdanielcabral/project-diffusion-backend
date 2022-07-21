@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import User from '../../database/models/User';
 import UserService from '../../services/UserService';
-import { createdUser } from '../mocks/user';
+import { allUsers, createdUser } from '../mocks/user';
 
 describe('Testa o service User', () => {
   it('01) Verifica se é possível salvar uma pessoa usuária', async () => {
@@ -61,5 +61,22 @@ describe('Testa o service User', () => {
       expect(error.message).to.be.equal('Invalid email or password');
     }
     (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('05) Verifica se o método  findAll retorna todos as pessoas usuárias', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findAll').resolves(allUsers as User[]);
+    const response = await service.findAll();
+    expect(response).to.be.deep.equal(allUsers);
+    (User.findAll as Sinon.SinonStub).restore();
+  });
+
+  it('06) Verifica se o método findAllByFilter retorna as pessoas usuárias filtradas', async () => {
+    const service = new UserService(User);
+    const mock = allUsers.filter(user => user.name.includes('Ra'));
+    Sinon.stub(User, 'findAll').resolves(mock as User[]);
+    const response = await service.findAllByFilter('name', 'Ra');
+    expect(response).to.be.deep.equal(mock);
+    (User.findAll as Sinon.SinonStub).restore();
   });
 });
