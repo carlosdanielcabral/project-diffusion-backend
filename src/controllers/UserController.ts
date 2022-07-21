@@ -13,6 +13,7 @@ class UserController {
     const userData = req.body;
     try {
       const user = await this._service.login(userData);
+
       const token = new Token(JWT_CONFIG as SignOptions);
       const tokenValue = token.generate(user);
 
@@ -27,7 +28,10 @@ class UserController {
     try {
       const user = await this._service.save(userData);
 
-      return res.status(201).json(user);
+      const token = new Token(JWT_CONFIG as SignOptions);
+      const tokenValue = token.generate(user);
+
+      return res.status(201).json({ token: tokenValue });
     } catch (err) {
       return next(err);
     }
