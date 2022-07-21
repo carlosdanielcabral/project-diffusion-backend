@@ -124,7 +124,7 @@ describe('Testa o controller User', () => {
     (User.findOne as Sinon.SinonStub).restore();
   });
 
-  it('11) Verifica se não é possível obter os dados de todas as pessoas usuárias', async () => {
+  it('11) Verifica se é possível obter os dados de todas as pessoas usuárias', async () => {
     Sinon.stub(User, 'findAll').resolves(allUsers as User[]);
     const response = await chai.request(app.app).get('/user');
     expect(response).to.have.status(200);
@@ -132,12 +132,39 @@ describe('Testa o controller User', () => {
     (User.findAll as Sinon.SinonStub).restore();
   });
 
-  it('12) Verifica se não é possível obter os dados das pessoas usuárias filtradas', async () => {
+  it('12) Verifica se é possível obter os dados das pessoas usuárias filtradas', async () => {
     const mock = allUsers.filter(user => user.name.includes('Ra'));
     Sinon.stub(User, 'findAll').resolves(mock as User[]);
     const response = await chai.request(app.app).get('/user?name=Ra');
     expect(response).to.have.status(200);
     expect(response.body).to.be.deep.equal(mock);
     (User.findAll as Sinon.SinonStub).restore();
+  });
+
+  it('13) Verifica se é possível atualizar os dados da pessoa usuária', async () => {
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    Sinon.stub(User, 'update').resolves();
+    const { id, password, ...userData } = createdUser;
+    userData.name = 'User 001';
+    const updatedUserMock = { id, ...userData };
+    Sinon.stub(User, 'findByPk').resolves(updatedUserMock as User);
+
+    const loginResponse = await chai.request(app.app).post('/user/login').send({
+      email: userData.email,
+      password,
+    });
+
+    const response = await chai
+      .request(app.app)
+      .put('/user')
+      .send(userData)
+      .set({
+        authorization: loginResponse.body.token,
+      });
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.deep.equal(updatedUserMock);
+    (User.findOne as Sinon.SinonStub).restore();
+    (User.update as Sinon.SinonStub).restore();
+    (User.findByPk as Sinon.SinonStub).restore();
   });
 });
