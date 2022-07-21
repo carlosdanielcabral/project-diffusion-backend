@@ -1,4 +1,16 @@
-import { TErrorMessage, TUser, TUserField } from '../types';
+import { TErrorMessage, TPost, TPostField, TUser, TUserField } from '../types';
+
+export interface IPostService {
+  findAll: () => Promise<TPost[]>;
+  findAllByFilter: (
+    field: TPostField,
+    value: number | string,
+  ) => Promise<TPost[]>;
+  findOne: (field: TPostField, value: number | string) => Promise<TPost>;
+  save: (data: TUser) => Promise<TPost>;
+  remove: (userId: number, postI: number) => Promise<TPost>;
+  update: (data: TUser) => Promise<TPost>;
+}
 
 export interface IUserService {
   findAll: () => Promise<TUser[]>;
