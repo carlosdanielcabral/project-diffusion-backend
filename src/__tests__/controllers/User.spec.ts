@@ -21,7 +21,7 @@ describe('Testa o controller User', () => {
     const { id, ...userData } = createdUser;
     const response = await chai.request(app.app).post('/user').send(userData);
     expect(response).to.have.status(201);
-    expect(response.body).to.be.deep.equal(createdUser);
+    expect(response.body).to.have.property('token');
     (User.findOne as Sinon.SinonStub).restore();
     (User.create as Sinon.SinonStub).restore();
   });
@@ -109,7 +109,7 @@ describe('Testa o controller User', () => {
     (User.findOne as Sinon.SinonStub).restore();
   });
 
-  it('10) Verifica se não é possível fazer login com uma senha inválido', async () => {
+  it('10) Verifica se não é possível fazer login com uma senha inválida', async () => {
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     const { id, name, ...userData } = createdUser;
     userData.password = '12345';
