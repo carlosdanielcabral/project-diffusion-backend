@@ -1,6 +1,8 @@
-import { TErrorMessage, TUser } from '../types';
+import { TErrorMessage, TUser, TUserField } from '../types';
 
 export interface IUserService {
+  findOne: (field: TUserField, value: number | string) => Promise<TUser>;
+  login: (data: TUser) => Promise<TUser>;
   save: (data: TUser) => Promise<TUser>;
 }
 
