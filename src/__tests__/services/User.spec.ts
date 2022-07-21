@@ -5,7 +5,7 @@ import UserService from '../../services/UserService';
 import { createdUser } from '../mocks/user';
 
 describe('Testa o service User', () => {
-  it('01) Verifica se é possível salvar um usuário', async () => {
+  it('01) Verifica se é possível salvar uma pessoa usuária', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves();
     Sinon.stub(User, 'create').resolves(createdUser as User);
@@ -16,7 +16,7 @@ describe('Testa o service User', () => {
     (User.create as Sinon.SinonStub).restore();
   });
 
-  it('02) Verifica se não é possível salvar um usuário se o email já existe no banco', async () => {
+  it('02) Verifica se não é possível salvar uma pessoa usuária se o email já existe no banco', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     const { id, ...user } = createdUser;
