@@ -35,7 +35,7 @@ describe('Testa o controller User', () => {
     });
   });
 
-  it('03) Verifica se não é possível salvar uma pessoa usuária com nome inválido', async () => {
+  it('03) Verifica se não é possível salvar uma pessoa usuária com um nome inválido', async () => {
     const { id, ...userData } = createdUser;
     userData.name = 'ad';
     const response = await chai.request(app.app).post('/user').send(userData);
@@ -54,13 +54,32 @@ describe('Testa o controller User', () => {
     });
   });
 
-  it('05) Verifica se não é possível salvar uma pessoa usuária com email inválido', async () => {
+  it('05) Verifica se não é possível salvar uma pessoa usuária com um email inválido', async () => {
     const { id, ...userData } = createdUser;
     userData.email = 'user01email.com';
     const response = await chai.request(app.app).post('/user').send(userData);
     expect(response).to.have.status(400);
     expect(response.body).to.be.deep.equal({
       message: '"email" must be a valid email',
+    });
+  });
+
+  it('06) Verifica se não é possível salvar uma pessoa usuária sem fornecer uma senha', async () => {
+    const { id, password, ...userData } = createdUser;
+    const response = await chai.request(app.app).post('/user').send(userData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.deep.equal({
+      message: '"password" is required',
+    });
+  });
+
+  it('07) Verifica se não é possível salvar uma pessoa usuária com uma senha inválida', async () => {
+    const { id, ...userData } = createdUser;
+    userData.password = '123';
+    const response = await chai.request(app.app).post('/user').send(userData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.deep.equal({
+      message: '"password" length must be at least 4 characters long',
     });
   });
 });
