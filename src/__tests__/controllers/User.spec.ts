@@ -6,7 +6,7 @@ import User from '../../database/models/User';
 import App from '../../app';
 
 import UserService from '../../services/UserService';
-import { createdUser } from '../mocks/user';
+import { allUsers, createdUser } from '../mocks/user';
 
 chai.use(chaiHttp);
 
@@ -122,5 +122,22 @@ describe('Testa o controller User', () => {
       message: 'Invalid email or password',
     });
     (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('11) Verifica se não é possível obter os dados de todas as pessoas usuárias', async () => {
+    Sinon.stub(User, 'findAll').resolves(allUsers as User[]);
+    const response = await chai.request(app.app).get('/user');
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.deep.equal(allUsers);
+    (User.findAll as Sinon.SinonStub).restore();
+  });
+
+  it('12) Verifica se não é possível obter os dados das pessoas usuárias filtradas', async () => {
+    const mock = allUsers.filter(user => user.name.includes('Ra'));
+    Sinon.stub(User, 'findAll').resolves(mock as User[]);
+    const response = await chai.request(app.app).get('/user?name=Ra');
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.deep.equal(mock);
+    (User.findAll as Sinon.SinonStub).restore();
   });
 });
