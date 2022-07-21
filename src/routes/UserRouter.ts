@@ -23,6 +23,13 @@ class UserRouter {
       passwordValidation,
       this._user.save,
     );
+
+    this._router.post(
+      '/login',
+      emailValidation,
+      passwordValidation,
+      this._user.login,
+    );
   }
 
   get router() {
