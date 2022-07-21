@@ -9,16 +9,17 @@ class Route {
   constructor(router: Router, user: UserRouter) {
     this._router = router;
     this._user = user;
+
     this.config();
   }
-
-  config = (): void => {
-    this._router.use('/user', this._user.router);
-  };
 
   get router() {
     return this._router;
   }
+
+  config = () => {
+    this._router.use('/user', this._user.router);
+  };
 }
 
 export default Route;

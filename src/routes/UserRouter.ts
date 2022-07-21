@@ -12,10 +12,15 @@ class UserRouter {
   constructor(router: Router, user: UserController) {
     this._router = router;
     this._user = user;
+
     this.config();
   }
 
-  config(): void {
+  get router() {
+    return this._router;
+  }
+
+  config() {
     this._router.post(
       '/',
       nameValidation,
@@ -30,10 +35,7 @@ class UserRouter {
       passwordValidation,
       this._user.login,
     );
-  }
-
-  get router() {
-    return this._router;
+    this._router.get('/', this._user.findAll);
   }
 }
 
