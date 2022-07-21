@@ -3,6 +3,7 @@ import { SignOptions } from 'jsonwebtoken';
 import Token from '../auth/Token';
 import { JWT_CONFIG } from '../consts';
 import { IUserService } from '../interfaces';
+import { TUser } from '../types';
 
 class UserController {
   constructor(private _service: IUserService) {
@@ -32,6 +33,23 @@ class UserController {
       const tokenValue = token.generate(user);
 
       return res.status(201).json({ token: tokenValue });
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  findAll = async (req: Request, res: Response, next: NextFunction) => {
+    const { name } = req.query;
+    try {
+      let user: TUser[];
+
+      if (name) {
+        user = await this._service.findAllByFilter('name', String(name));
+      } else {
+        user = await this._service.findAll();
+      }
+
+      return res.status(200).json(user);
     } catch (err) {
       return next(err);
     }
