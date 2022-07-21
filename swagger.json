@@ -64,6 +64,33 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": ["User"],
+        "description": "Atualiza os dados da pessoa usuária no banco de dados",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#components/schemas/RequestUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retorna os dados atualizados",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#components/schemas/FullUser"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/user/login": {
