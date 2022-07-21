@@ -29,7 +29,7 @@ User.init(
   },
 );
 
-User.hasMany(Post, { foreignKey: 'author' as 'authorId' });
-Post.belongsTo(User, { foreignKey: 'author', as: 'authorId' });
+User.hasMany(Post, { foreignKey: 'author' as 'authorData' });
+Post.belongsTo(User, { foreignKey: 'author', as: 'authorData' });
 
 export default User;
