@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from '../controllers/UserController';
+import nameValidation from '../middlewares/nameValidation';
 
 class UserRouter {
   private _router: Router;
@@ -13,7 +14,7 @@ class UserRouter {
   }
 
   config(): void {
-    this._router.post('/', this._user.save);
+    this._router.post('/', nameValidation, this._user.save);
   }
 
   get router() {
