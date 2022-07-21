@@ -1,3 +1,7 @@
+export type TErrorMessage = {
+  message: string;
+};
+
 export type TUser = {
   id?: number;
   name?: string;
@@ -5,6 +9,4 @@ export type TUser = {
   password?: string;
 };
 
-export type TErrorMessage = {
-  message: string;
-};
+export type TUserField = 'id' | 'name' | 'email';
