@@ -68,6 +68,16 @@ class UserService implements IUserService {
 
     return this._model.create(data);
   };
+
+  update = async (data: TUser): Promise<TUser> => {
+    const user = await this.findOne('email', data.email);
+
+    await this._model.update(data, { where: { id: user.id } });
+
+    return this._model.findByPk(data.id, {
+      attributes: ['id', 'name', 'email'],
+    });
+  };
 }
 
 export default UserService;

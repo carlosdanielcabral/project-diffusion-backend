@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import { SignOptions } from 'jsonwebtoken';
+import Token from '../auth/Token';
+import { JWT_CONFIG } from '../consts';
 import UserController from '../controllers/UserController';
 import emailValidation from '../middlewares/emailValidation';
 import nameValidation from '../middlewares/nameValidation';
@@ -35,7 +38,18 @@ class UserRouter {
       passwordValidation,
       this._user.login,
     );
+
+    const token = new Token(JWT_CONFIG as SignOptions);
+
     this._router.get('/', this._user.findAll);
+
+    this._router.put(
+      '/',
+      nameValidation,
+      emailValidation,
+      token.validate,
+      this._user.update,
+    );
   }
 }
 
