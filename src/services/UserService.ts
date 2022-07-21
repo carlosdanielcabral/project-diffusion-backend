@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import User from '../database/models/User';
 import ErrorHandler from '../helpers/ErrorHandler';
 import { IUserService } from '../interfaces';
@@ -8,11 +9,36 @@ class UserService implements IUserService {
     this._model = _model;
   }
 
+  findAllByFilter = async (
+    field: TUserField,
+    value: string | number,
+  ): Promise<TUser[]> => {
+    const user = await this._model.findAll({
+      where: { [field]: { [Op.like]: `%${value}%` } },
+      attributes: ['id', 'name', 'email'],
+      raw: true,
+    });
+
+    return user;
+  };
+
+  findAll = async (): Promise<TUser[]> => {
+    const user = await this._model.findAll({
+      attributes: ['id', 'name', 'email'],
+      raw: true,
+    });
+
+    return user;
+  };
+
   findOne = async (
     field: TUserField,
     value: string | number,
   ): Promise<TUser> => {
-    const user = await this._model.findOne({ where: { [field]: value } });
+    const user = await this._model.findOne({
+      where: { [field]: value },
+      raw: true,
+    });
 
     if (!user) throw new ErrorHandler(404, 'User not found');
 
