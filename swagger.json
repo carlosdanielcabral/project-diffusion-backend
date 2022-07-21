@@ -26,12 +26,68 @@
         },
         "responses": {
           "201": {
-            "description": "Retorna os dados da pessoa usuária que foram salvos",
+            "description": "Retorna um token para validações futuras",
             "content": {
               "application/json": {
                 "type": "object",
                 "schema": {
-                  "$ref": "#components/schemas/FullUser"
+                  "$ref": "#components/schemas/Token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "parameters": [{
+          "in": "query",
+          "name": "name",
+          "required": false,
+          "schema": {
+            "type": "string"
+          },
+          "description": "O nome ou partes do nome da pessoa usuária que se quer encontrar"
+        }],
+        "description": "Obtém os dados de todas as pessoas usuárias cadastradas",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#components/schemas/FullUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["User"],
+        "description": "Verifica os dados de acesso da pessoa usuária",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#components/schemas/AccessData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retorna um token para validações futuras",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "schema": {
+                  "$ref": "#components/schemas/Token"
                 }
               }
             }
@@ -42,6 +98,14 @@
   },
   "components": {
     "schemas": {
+      "Token": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
       "FullUser": {
         "type": "object",
         "properties": {
@@ -56,10 +120,6 @@
           "email": {
             "type": "string",
             "example": "user01@email.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "user01password"
           }
         }
       },
@@ -77,6 +137,17 @@
           "password": {
             "type": "string",
             "example": "user01password"
+          }
+        }
+      },
+      "AccessData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         }
       }
