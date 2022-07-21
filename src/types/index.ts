@@ -4,3 +4,7 @@ export type TUser = {
   email: string;
   password?: string;
 };
+
+export type TErrorMessage = {
+  message: string;
+};
