@@ -27,4 +27,39 @@ describe('Testa o service User', () => {
     }
     (User.findOne as Sinon.SinonStub).restore();
   });
+
+  it('03) Verifica se o método login retorna os dados corretos ao receber dados válidos', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    const { id, name, ...user } = createdUser;
+    const response = await service.login(user);
+    const { password, ...expectedUser } = createdUser;
+    expect(response).to.be.deep.equal(expectedUser);
+    (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('03) Verifica se o método login retorna um erro quando recebe um email inválido', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findOne').resolves();
+    const { id, name, ...user } = createdUser;
+    try {
+      await service.login(user);
+    } catch (error) {
+      expect(error.message).to.be.equal('Invalid email or password');
+    }
+    (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('04) Verifica se o método login retorna um erro quando recebe uma senha inválida', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    const { id, name, ...user } = createdUser;
+    user.password = '123456';
+    try {
+      await service.login(user);
+    } catch (error) {
+      expect(error.message).to.be.equal('Invalid email or password');
+    }
+    (User.findOne as Sinon.SinonStub).restore();
+  });
 });

@@ -82,4 +82,45 @@ describe('Testa o controller User', () => {
       message: '"password" length must be at least 4 characters long',
     });
   });
+
+  it('08) Verifica se é possível fazer login com dados válidos', async () => {
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    const { id, name, ...userData } = createdUser;
+    const response = await chai
+      .request(app.app)
+      .post('/user/login')
+      .send(userData);
+    expect(response).to.have.status(200);
+    expect(response.body).to.have.property('token');
+    (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('09) Verifica se não é possível fazer login com um email inválido', async () => {
+    Sinon.stub(User, 'findOne').resolves();
+    const { id, name, ...userData } = createdUser;
+    const response = await chai
+      .request(app.app)
+      .post('/user/login')
+      .send(userData);
+    expect(response).to.have.status(401);
+    expect(response.body).to.be.deep.equal({
+      message: 'Invalid email or password',
+    });
+    (User.findOne as Sinon.SinonStub).restore();
+  });
+
+  it('10) Verifica se não é possível fazer login com uma senha inválido', async () => {
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    const { id, name, ...userData } = createdUser;
+    userData.password = '12345';
+    const response = await chai
+      .request(app.app)
+      .post('/user/login')
+      .send(userData);
+    expect(response).to.have.status(401);
+    expect(response.body).to.be.deep.equal({
+      message: 'Invalid email or password',
+    });
+    (User.findOne as Sinon.SinonStub).restore();
+  });
 });
