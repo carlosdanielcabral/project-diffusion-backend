@@ -11,7 +11,8 @@ class App {
   constructor() {
     this._app = express();
 
-    this._app.get('/', (req, res) => res.status(200).json({ runnig: true }));
+    this._app.get('/', (req, res) => res.status(200).json({ online: true }));
+
     this.config();
   }
 
