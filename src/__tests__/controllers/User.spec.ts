@@ -26,7 +26,7 @@ describe('Testa o controller User', () => {
     (User.create as Sinon.SinonStub).restore();
   });
 
-  it('02) Verifica se não é possível salvar uma pessoa usuária sem fornecer nome', async () => {
+  it('02) Verifica se não é possível salvar uma pessoa usuária sem fornecer um nome', async () => {
     const { id, name, ...userData } = createdUser;
     const response = await chai.request(app.app).post('/user').send(userData);
     expect(response).to.have.status(400);
@@ -42,6 +42,25 @@ describe('Testa o controller User', () => {
     expect(response).to.have.status(400);
     expect(response.body).to.be.deep.equal({
       message: '"name" length must be at least 3 characters long',
+    });
+  });
+
+  it('04) Verifica se não é possível salvar uma pessoa usuária sem fornecer um email', async () => {
+    const { id, email, ...userData } = createdUser;
+    const response = await chai.request(app.app).post('/user').send(userData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.deep.equal({
+      message: '"email" is required',
+    });
+  });
+
+  it('05) Verifica se não é possível salvar uma pessoa usuária com email inválido', async () => {
+    const { id, ...userData } = createdUser;
+    userData.email = 'user01email.com';
+    const response = await chai.request(app.app).post('/user').send(userData);
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.deep.equal({
+      message: '"email" must be a valid email',
     });
   });
 });
