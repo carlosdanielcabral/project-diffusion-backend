@@ -79,4 +79,31 @@ describe('Testa o service User', () => {
     expect(response).to.be.deep.equal(mock);
     (User.findAll as Sinon.SinonStub).restore();
   });
+
+  it('07) Verifica se é possível atualizar os dados da pessoa usuária', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    Sinon.stub(User, 'update').resolves();
+    const { id, password, ...user } = createdUser;
+    user.name = 'User 001';
+    const updatedUserMock = { id, ...user };
+    Sinon.stub(User, 'findByPk').resolves(updatedUserMock as User);
+    const response = await service.update(user);
+    expect(response).to.be.deep.equal(updatedUserMock);
+    (User.findOne as Sinon.SinonStub).restore();
+    (User.update as Sinon.SinonStub).restore();
+    (User.findByPk as Sinon.SinonStub).restore();
+  });
+
+  it('07) Verifica se não é possível atualizar os dados de pessoa usuária não cadastrada', async () => {
+    const service = new UserService(User);
+    Sinon.stub(User, 'findOne').resolves();
+    const { password, ...user } = createdUser;
+    try {
+      await service.update(user);
+    } catch (error) {
+      expect(error.message).to.be.equal('User not found');
+    }
+    (User.findOne as Sinon.SinonStub).restore();
+  });
 });
