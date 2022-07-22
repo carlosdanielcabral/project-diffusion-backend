@@ -51,8 +51,7 @@ class PostController {
     const { id } = req.params;
     try {
       postData.id = id;
-      postData.author = user.id;
-      const response = await this._service.update(postData);
+      const response = await this._service.update(postData, Number(id));
       return res.status(200).json(response);
     } catch (err) {
       return next(err);

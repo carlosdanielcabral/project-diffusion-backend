@@ -88,13 +88,17 @@ class PostService implements IPostService {
     return this._model.create(newPost);
   };
 
-  update = async (data: TPost): Promise<TPost> => {
+  update = async (data: TPost, userId: number): Promise<TPost> => {
     const post = await this._model.findOne({
       where: { id: data.id },
     });
 
     if (!post) {
       throw new ErrorHandler(404, 'Post not found');
+    }
+
+    if (post.author !== userId) {
+      throw new ErrorHandler(401, 'Not allowed operation');
     }
 
     const now = new Date();

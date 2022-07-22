@@ -7,9 +7,9 @@ export interface IPostService {
     value: number | string,
   ) => Promise<TPost[]>;
   findOne: (field: TPostField, value: number | string) => Promise<TPost>;
-  save: (data: TUser) => Promise<TPost>;
+  save: (data: TPost) => Promise<TPost>;
   remove: (userId: number, postI: number) => Promise<TPost>;
-  update: (data: TUser) => Promise<TPost>;
+  update: (data: TPost, userId: number) => Promise<TPost>;
 }
 
 export interface IUserService {
