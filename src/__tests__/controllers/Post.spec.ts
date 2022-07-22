@@ -106,7 +106,38 @@ describe('Testa o controller Post', () => {
     (Post.update as Sinon.SinonStub).restore();
   });
 
-  it('06) Verifica se é possível remover um post', async () => {
+  it('06) Verifica se somente a pessoa autora consegue atualizar seu post', async () => {
+    const { id, authorData, author, ...postData } = createdPost;
+
+    createdUser.id = 2;
+
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
+    Sinon.stub(Post, 'findByPk').resolves(createdPost as unknown as Post);
+    Sinon.stub(Post, 'update').resolves();
+
+    const login = await chai.request(app.app).post('/user/login').send({
+      email: createdUser.email,
+      password: createdUser.password,
+    });
+
+    try {
+      await chai
+        .request(app.app)
+        .put('/post/1')
+        .send(postData)
+        .set({ authorization: login.body.token });
+    } catch (error) {
+      expect(error.message).to.be.equal('Not allowed operation');
+    }
+    (User.findOne as Sinon.SinonStub).restore();
+    (Post.findOne as Sinon.SinonStub).restore();
+    (Post.findByPk as Sinon.SinonStub).restore();
+    (Post.update as Sinon.SinonStub).restore();
+    createdUser.id = 1;
+  });
+
+  it('07) Verifica se é possível remover um post', async () => {
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
     Sinon.stub(Post, 'destroy').resolves();
@@ -126,5 +157,32 @@ describe('Testa o controller Post', () => {
     (User.findOne as Sinon.SinonStub).restore();
     (Post.findOne as Sinon.SinonStub).restore();
     (Post.destroy as Sinon.SinonStub).restore();
+  });
+
+  it('08) Verifica se somente a pessoa autora consegue deletar seu post', async () => {
+    createdUser.id = 2;
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+    Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
+    Sinon.stub(Post, 'destroy').resolves();
+
+    const login = await chai.request(app.app).post('/user/login').send({
+      email: createdUser.email,
+      password: createdUser.password,
+    });
+
+    try {
+      await chai
+        .request(app.app)
+        .delete('/post/1')
+        .set({ authorization: login.body.token });
+    } catch (error) {
+      expect(error.message).to.be.equal('Not allowed operation');
+    }
+
+    (User.findOne as Sinon.SinonStub).restore();
+    (Post.findOne as Sinon.SinonStub).restore();
+    (Post.destroy as Sinon.SinonStub).restore();
+
+    createdUser.id = 1;
   });
 });

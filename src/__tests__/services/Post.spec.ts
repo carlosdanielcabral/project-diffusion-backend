@@ -34,7 +34,7 @@ describe('Testa o service Post', () => {
     (Post.findOne as Sinon.SinonStub).restore();
   });
 
-  it('05) Verifica se o método  findAll retorna todos os posts', async () => {
+  it('03) Verifica se o método  findAll retorna todos os posts', async () => {
     const service = new PostService(Post);
     Sinon.stub(Post, 'findAll').resolves([createdPost] as unknown as Post[]);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
@@ -44,7 +44,7 @@ describe('Testa o service Post', () => {
     (Post.findAll as Sinon.SinonStub).restore();
   });
 
-  it('06) Verifica se o método update atualiza um post', async () => {
+  it('04) Verifica se o método update atualiza um post', async () => {
     const service = new PostService(Post);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
@@ -52,7 +52,7 @@ describe('Testa o service Post', () => {
     Sinon.stub(Post, 'update').resolves();
     const { id, createdAt, author, authorData, updatedAt, ...postData } =
       createdPost;
-    const response = await service.update(postData);
+    const response = await service.update(postData, 1);
     expect(response).to.be.deep.equal(createdPost);
     (User.findOne as Sinon.SinonStub).restore();
     (Post.findOne as Sinon.SinonStub).restore();
@@ -60,7 +60,7 @@ describe('Testa o service Post', () => {
     (Post.update as Sinon.SinonStub).restore();
   });
 
-  it('07) Verifica se o método remove deleta um post', async () => {
+  it('05) Verifica se o método remove deleta um post', async () => {
     const service = new PostService(Post);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
