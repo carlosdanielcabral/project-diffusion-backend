@@ -38,7 +38,7 @@ describe('Testa o service User', () => {
     (User.findOne as Sinon.SinonStub).restore();
   });
 
-  it('03) Verifica se o método login retorna um erro quando recebe um email inválido', async () => {
+  it('04) Verifica se o método login retorna um erro quando recebe um email inválido', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves();
     const { id, name, ...user } = createdUser;
@@ -50,7 +50,7 @@ describe('Testa o service User', () => {
     (User.findOne as Sinon.SinonStub).restore();
   });
 
-  it('04) Verifica se o método login retorna um erro quando recebe uma senha inválida', async () => {
+  it('05) Verifica se o método login retorna um erro quando recebe uma senha inválida', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     const { id, name, ...user } = createdUser;
@@ -63,7 +63,7 @@ describe('Testa o service User', () => {
     (User.findOne as Sinon.SinonStub).restore();
   });
 
-  it('05) Verifica se o método  findAll retorna todos as pessoas usuárias', async () => {
+  it('06) Verifica se o método  findAll retorna todos as pessoas usuárias', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findAll').resolves(allUsers as User[]);
     const response = await service.findAll();
@@ -71,7 +71,7 @@ describe('Testa o service User', () => {
     (User.findAll as Sinon.SinonStub).restore();
   });
 
-  it('06) Verifica se o método findAllByFilter retorna as pessoas usuárias filtradas', async () => {
+  it('07) Verifica se o método findAllByFilter retorna as pessoas usuárias filtradas', async () => {
     const service = new UserService(User);
     const mock = allUsers.filter(user => user.name.includes('Ra'));
     Sinon.stub(User, 'findAll').resolves(mock as User[]);
@@ -80,7 +80,7 @@ describe('Testa o service User', () => {
     (User.findAll as Sinon.SinonStub).restore();
   });
 
-  it('07) Verifica se é possível atualizar os dados da pessoa usuária', async () => {
+  it('08) Verifica se é possível atualizar os dados da pessoa usuária', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     Sinon.stub(User, 'update').resolves();
@@ -95,7 +95,7 @@ describe('Testa o service User', () => {
     (User.findByPk as Sinon.SinonStub).restore();
   });
 
-  it('07) Verifica se não é possível atualizar os dados de pessoa usuária não cadastrada', async () => {
+  it('09) Verifica se não é possível atualizar os dados de pessoa usuária não cadastrada', async () => {
     const service = new UserService(User);
     Sinon.stub(User, 'findOne').resolves();
     const { password, ...user } = createdUser;
