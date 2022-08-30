@@ -38,7 +38,7 @@ Possuindo as dependências necessárias na máquina, siga as intruções abaixo:
     docker-compose up
   ```
   
-  2. Agora, copie as informações do arquivo .ev.example para um arquivo .env
+  2. Agora, copie as informações do arquivo .env.example para um arquivo .env
   
   3. Feito isso, faça o reset do banco rodando o seguinte comando:
   
@@ -64,17 +64,17 @@ Possuindo as dependências necessárias na máquina, siga as intruções abaixo:
   
   1. Instale as dependências do projeto:
   
-  ```bash
-    npm install
-  ```
+```bash
+  npm install
+```
   
   2. Inicie o servidor:
   
-    ```bash
-      npm start
-    ```
+```bash
+  npm start
+```
     
-  3. Agora, copie as informações do arquivo .ev.example para um arquivo .env
+  3. Agora, copie as informações do arquivo .env.example para um arquivo .env
   
   4. Feito isso, faça o reset do banco rodando o seguinte comando:
   
