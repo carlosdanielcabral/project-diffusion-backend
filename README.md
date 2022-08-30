@@ -60,7 +60,7 @@ Possuindo as dependências necessárias na máquina, siga as intruções abaixo:
   
   Para rodar a aplicação sem o Docker Compose:
   
-  <strong>*Certifique-se de possuir um banco de dados Mysql rodando em segundo plano.*</strong>
+  <strong>*Certifique-se de possuir um banco de dados MySql rodando em segundo plano com as configurações indicadas no arquivo .env.example (nome, host, usuário e senha).*</strong>
   
   1. Instale as dependências do projeto:
   
