@@ -49,7 +49,7 @@ class UserService implements IUserService {
     if (!user) {
       throw new HttpError(
         HttpStatusCode.BadRequest,
-        'Invalid email or password'
+        'Invalid email or password',
       );
     }
 
