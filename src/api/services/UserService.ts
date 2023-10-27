@@ -4,6 +4,7 @@ import { IUserService } from '../../lib/interfaces';
 import { TUser, TUserField } from '../../lib/types';
 import HttpError from '../../lib/http/HttpError';
 import HttpStatusCode from '../../lib/http/HttpStatusCode';
+import Hash from '../../lib/Hash';
 
 class UserService implements IUserService {
   public constructor(private _model = User) {
@@ -45,7 +46,16 @@ class UserService implements IUserService {
   public login = async (data: TUser): Promise<TUser> => {
     const user = await this.findOne('email', data.email);
 
-    if (user.password !== data.password) {
+    if (!user) {
+      throw new HttpError(
+        HttpStatusCode.BadRequest,
+        'Invalid email or password'
+      );
+    }
+
+    const samePassword = Hash.compare(data.password, user.password);
+
+    if (!samePassword) {
       throw new HttpError(
         HttpStatusCode.BadRequest,
         'Invalid email or password',
@@ -63,6 +73,8 @@ class UserService implements IUserService {
     if (hasUser) {
       throw new HttpError(HttpStatusCode.Conflict, 'Email already exists');
     }
+
+    data.password = Hash.hash(data.password);
 
     return this._model.create(data);
   };
