@@ -5,11 +5,11 @@ import { IUserService } from '../../lib/interfaces';
 import { TUser, TUserField } from '../../lib/types';
 
 class UserService implements IUserService {
-  constructor(private _model = User) {
+  public constructor(private _model = User) {
     this._model = _model;
   }
 
-  findAllByFilter = async (
+  public findAllByFilter = async (
     field: TUserField,
     value: string | number,
   ): Promise<TUser[]> => {
@@ -22,7 +22,7 @@ class UserService implements IUserService {
     return user;
   };
 
-  findAll = async (): Promise<TUser[]> => {
+  public findAll = async (): Promise<TUser[]> => {
     const user = await this._model.findAll({
       attributes: ['id', 'name', 'email'],
       raw: true,
@@ -31,7 +31,7 @@ class UserService implements IUserService {
     return user;
   };
 
-  findOne = async (
+  public findOne = async (
     field: TUserField,
     value: string | number,
   ): Promise<TUser> => {
@@ -45,7 +45,7 @@ class UserService implements IUserService {
     return user;
   };
 
-  login = async (data: TUser): Promise<TUser> => {
+  public login = async (data: TUser): Promise<TUser> => {
     try {
       const user = await this.findOne('email', data.email);
 
@@ -61,7 +61,7 @@ class UserService implements IUserService {
     }
   };
 
-  save = async (data: TUser): Promise<TUser> => {
+  public save = async (data: TUser): Promise<TUser> => {
     const hasUser = await this._model.findOne({ where: { email: data.email } });
 
     if (hasUser) throw new ErrorHandler(409, 'Email already exists');
@@ -69,7 +69,7 @@ class UserService implements IUserService {
     return this._model.create(data);
   };
 
-  update = async (data: TUser): Promise<TUser> => {
+  public update = async (data: TUser): Promise<TUser> => {
     const user = await this.findOne('email', data.email);
 
     await this._model.update(data, { where: { id: user.id } });

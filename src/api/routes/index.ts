@@ -3,7 +3,7 @@ import PostRouter from './PostRouter';
 import UserRouter from './UserRouter';
 
 class Route {
-  constructor(
+  public constructor(
     private _router: Router,
     private _user: UserRouter,
     private _post: PostRouter
@@ -15,7 +15,7 @@ class Route {
     return this._router;
   }
 
-  config = () => {
+  private config = () => {
     this._router.use('/user', this._user.router);
     this._router.use('/post', this._post.router);
   };

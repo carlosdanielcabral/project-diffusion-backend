@@ -7,11 +7,11 @@ import { TUser } from '../../lib/types';
 import UserService from '../services/UserService';
 
 class UserController {
-  constructor(private _service: IUserService = new UserService()) {
+  public constructor(private _service: IUserService = new UserService()) {
     this._service = _service;
   }
 
-  login = async (req: Request, res: Response, next: NextFunction) => {
+  public login = async (req: Request, res: Response, next: NextFunction) => {
     const userData = req.body;
     try {
       const user = await this._service.login(userData);
@@ -25,7 +25,7 @@ class UserController {
     }
   };
 
-  save = async (req: Request, res: Response, next: NextFunction) => {
+  public save = async (req: Request, res: Response, next: NextFunction) => {
     const userData = req.body;
     try {
       const user = await this._service.save(userData);
@@ -39,7 +39,7 @@ class UserController {
     }
   };
 
-  findAll = async (req: Request, res: Response, next: NextFunction) => {
+  public findAll = async (req: Request, res: Response, next: NextFunction) => {
     const { name } = req.query;
     try {
       let user: TUser[];
@@ -56,7 +56,7 @@ class UserController {
     }
   };
 
-  update = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async (req: Request, res: Response, next: NextFunction) => {
     const { user, ...userData } = req.body;
     try {
       userData.id = user.id;

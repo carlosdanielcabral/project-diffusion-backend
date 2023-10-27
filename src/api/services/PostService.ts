@@ -6,11 +6,11 @@ import { IPostService } from '../../lib/interfaces';
 import { TPost, TPostField } from '../../lib/types';
 
 class PostService implements IPostService {
-  constructor(private _model = Post) {
+  public constructor(private _model = Post) {
     this._model = _model;
   }
 
-  findAllByFilter = async (
+  public findAllByFilter = async (
     field: TPostField,
     value: string | number,
   ): Promise<TPost[]> => {
@@ -27,7 +27,7 @@ class PostService implements IPostService {
     return post;
   };
 
-  findAll = async (): Promise<TPost[]> => {
+  public findAll = async (): Promise<TPost[]> => {
     const post = await this._model.findAll({
       include: {
         model: User,
@@ -39,7 +39,7 @@ class PostService implements IPostService {
     return post;
   };
 
-  findOne = async (
+  public findOne = async (
     field: TPostField,
     value: string | number,
   ): Promise<TPost> => {
@@ -58,7 +58,7 @@ class PostService implements IPostService {
     return post;
   };
 
-  remove = async (userId: number, postId: number): Promise<TPost> => {
+  public remove = async (userId: number, postId: number): Promise<TPost> => {
     const post = await this.findOne('id', postId);
 
     if (post.author !== userId) {
@@ -70,7 +70,7 @@ class PostService implements IPostService {
     return post;
   };
 
-  save = async (data: TPost): Promise<TPost> => {
+  public save = async (data: TPost): Promise<TPost> => {
     const hasPost = await this._model.findOne({
       where: { title: data.title },
     });
@@ -88,7 +88,7 @@ class PostService implements IPostService {
     return this._model.create(newPost);
   };
 
-  update = async (data: TPost, userId: number): Promise<TPost> => {
+  public update = async (data: TPost, userId: number): Promise<TPost> => {
     const post = await this._model.findOne({
       where: { id: data.id },
     });

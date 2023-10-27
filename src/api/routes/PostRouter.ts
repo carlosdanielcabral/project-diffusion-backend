@@ -8,7 +8,7 @@ import idValidation from '../middlewares/idValidation';
 import titleValidation from '../middlewares/titleValidation';
 
 class PostRouter {
-  constructor(
+  public constructor(
     private _router = Router(),
     private _post = new PostController()
   ) {
@@ -19,7 +19,7 @@ class PostRouter {
     return this._router;
   }
 
-  config() {
+  private config() {
     const token = new Token(JWT_CONFIG as SignOptions);
 
     this._router.post(

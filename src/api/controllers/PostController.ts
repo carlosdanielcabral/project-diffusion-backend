@@ -4,11 +4,11 @@ import { TPost } from '../../lib/types';
 import PostService from '../services/PostService';
 
 class PostController {
-  constructor(private _service: IPostService = new PostService()) {
+  public constructor(private _service: IPostService = new PostService()) {
     this._service = _service;
   }
 
-  save = async (req: Request, res: Response, next: NextFunction) => {
+  public save = async (req: Request, res: Response, next: NextFunction) => {
     const { user, ...postData } = req.body;
     try {
       postData.author = user.id;
@@ -19,7 +19,7 @@ class PostController {
     }
   };
 
-  findAll = async (req: Request, res: Response, next: NextFunction) => {
+  public findAll = async (req: Request, res: Response, next: NextFunction) => {
     const { author } = req.query;
     try {
       let post: TPost[];
@@ -36,7 +36,7 @@ class PostController {
     }
   };
 
-  remove = async (req: Request, res: Response, next: NextFunction) => {
+  public remove = async (req: Request, res: Response, next: NextFunction) => {
     const { user } = req.body;
     const { id } = req.params;
     try {
@@ -47,7 +47,7 @@ class PostController {
     }
   };
 
-  update = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async (req: Request, res: Response, next: NextFunction) => {
     const { user, ...postData } = req.body;
     const { id } = req.params;
     try {

@@ -8,7 +8,7 @@ import swaggerDocument from '../swagger.json';
 class App {
   private _app: Express;
 
-  constructor(private _route = RouteFactory()) {
+  public constructor(private _route = RouteFactory()) {
     this._app = express();
 
     this._app.get('/', (req, res) => res.status(200).json({ online: true }));
@@ -20,7 +20,7 @@ class App {
     return this._app;
   }
 
-  config = () => {
+  private config = () => {
     this._app.use(express.json());
     this._app.use(cors());
 
@@ -33,7 +33,7 @@ class App {
     this._app.use(ErrorMiddleware);
   };
 
-  listen = (port: number) =>
+  public listen = (port: number) =>
     this._app.listen(port, () =>
       console.log(`Aplicação online na porta ${port}`),
     );

@@ -8,7 +8,7 @@ import nameValidation from '../middlewares/nameValidation';
 import passwordValidation from '../middlewares/passwordValidation';
 
 class UserRouter {
-  constructor(
+  public constructor(
     private _router = Router(),
     private _user = new UserController()
   ) {
@@ -19,7 +19,7 @@ class UserRouter {
     return this._router;
   }
 
-  config() {
+  private config() {
     this._router.post(
       '/',
       nameValidation,
