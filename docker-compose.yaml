@@ -2,11 +2,13 @@ version: '3'
 
 services:
   database: 
-    build: ./src/database
+    image: mysql:8.0
     container_name: diffusion-database
     restart: always
     volumes:
-      - ./src/database:/docker-entrypoint-initdb.d/
+      - /diffusion/database
+      - ./src/database/mysql/init:/docker-entrypoint-initdb.d/
+      - ./src/database/mysql/conf:/etc/mysql/conf.d
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
@@ -26,5 +28,5 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - ./:/app
-      - ./app/node_modules
+      - ./:/diffusion/api
+      - /diffusion/api/node_modules
