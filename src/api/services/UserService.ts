@@ -76,7 +76,11 @@ class UserService implements IUserService {
 
     data.password = Hash.hash(data.password);
 
-    return this._model.create(data);
+    const user = await this._model.create(data);
+
+    const { password, ...userData } = user;
+
+    return userData;
   };
 
   public update = async (data: TUser): Promise<TUser> => {
