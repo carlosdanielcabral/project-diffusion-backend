@@ -14,8 +14,8 @@ class PostService implements IPostService {
   public findAllByFilter = async (
     field: TPostField,
     value: string | number,
-  ): Promise<TPost[]> => {
-    const post = await this._model.findAll({
+  ): Promise<TPost[]> =>
+    this._model.findAll({
       include: {
         model: User,
         attributes: ['id', 'name'],
@@ -25,20 +25,14 @@ class PostService implements IPostService {
       raw: true,
     });
 
-    return post;
-  };
-
-  public findAll = async (): Promise<TPost[]> => {
-    const post = await this._model.findAll({
+  public findAll = async (): Promise<TPost[]> =>
+    this._model.findAll({
       include: {
         model: User,
         attributes: ['id', 'name'],
         as: 'authorData',
       },
     });
-
-    return post;
-  };
 
   public findOne = async (
     field: TPostField,
@@ -89,7 +83,7 @@ class PostService implements IPostService {
     if (hasPost) {
       throw new HttpError(HttpStatusCode.Conflict, 'Post already exists');
     }
-  
+
     return this._model.create(newPost);
   };
 

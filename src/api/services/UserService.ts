@@ -13,24 +13,18 @@ class UserService implements IUserService {
   public findAllByFilter = async (
     field: TUserField,
     value: string | number,
-  ): Promise<TUser[]> => {
-    const user = await this._model.findAll({
+  ): Promise<TUser[]> =>
+    this._model.findAll({
       where: { [field]: { [Op.like]: `%${value}%` } },
       attributes: ['id', 'name', 'email'],
       raw: true,
     });
 
-    return user;
-  };
-
-  public findAll = async (): Promise<TUser[]> => {
-    const user = await this._model.findAll({
+  public findAll = async (): Promise<TUser[]> =>
+    this._model.findAll({
       attributes: ['id', 'name', 'email'],
       raw: true,
     });
-
-    return user;
-  };
 
   public findOne = async (
     field: TUserField,
@@ -52,7 +46,10 @@ class UserService implements IUserService {
     const user = await this.findOne('email', data.email);
 
     if (user.password !== data.password) {
-      throw new HttpError(HttpStatusCode.BadRequest, 'Invalid email or password');
+      throw new HttpError(
+        HttpStatusCode.BadRequest,
+        'Invalid email or password',
+      );
     }
 
     const { password, ...userData } = user;

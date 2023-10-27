@@ -16,19 +16,11 @@ class PostRouter {
   }
 
   private config() {
-    this._router.post(
-      '/',
-      this._middleware.save,
-      this._controller.save,
-    );
+    this._router.post('/', this._middleware.save, this._controller.save);
 
     this._router.get('/', this._controller.findAll);
 
-    this._router.put(
-      '/:id',
-      this._middleware.update,
-      this._controller.update,
-    );
+    this._router.put('/:id', this._middleware.update, this._controller.update);
 
     this._router.delete(
       '/:id',

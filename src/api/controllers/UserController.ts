@@ -21,7 +21,6 @@ class UserController {
     const token = this._token.generate(user);
 
     return res.status(200).json({ token });
-
   };
 
   public save = async (req: Request, res: Response) => {
@@ -32,7 +31,6 @@ class UserController {
     const token = this._token.generate(user);
 
     return res.status(HttpStatusCode.Ok).json({ token });
-
   };
 
   public findAll = async (req: Request, res: Response) => {
@@ -47,7 +45,6 @@ class UserController {
     }
 
     return res.status(HttpStatusCode.Ok).json(user);
-
   };
 
   public update = async (req: Request, res: Response) => {

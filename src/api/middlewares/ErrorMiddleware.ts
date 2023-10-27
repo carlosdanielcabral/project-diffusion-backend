@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { IErrorHandler } from '../../lib/interfaces';
 import HttpError from '../../lib/http/HttpError';
-import { JsonWebTokenError } from 'jsonwebtoken';
 import HttpStatusCode from '../../lib/http/HttpStatusCode';
 
 const ErrorMiddleware = (

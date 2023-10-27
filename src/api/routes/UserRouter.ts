@@ -16,26 +16,14 @@ class UserRouter {
   }
 
   private config = () => {
-    this._router.post(
-      '/',
-      this._middleware.save,
-      this._controller.save,
-    );
+    this._router.post('/', this._middleware.save, this._controller.save);
 
-    this._router.post(
-      '/login',
-      this._middleware.login,
-      this._controller.login,
-    );
+    this._router.post('/login', this._middleware.login, this._controller.login);
 
     this._router.get('/', this._controller.findAll);
 
-    this._router.put(
-      '/',
-      this._middleware.update,
-      this._controller.update,
-    );
-  }
+    this._router.put('/', this._middleware.update, this._controller.update);
+  };
 }
 
 export default UserRouter;

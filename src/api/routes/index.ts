@@ -7,7 +7,7 @@ class Route {
   public constructor(
     private _router: Router,
     private _user: UserRouter,
-    private _post: PostRouter
+    private _post: PostRouter,
   ) {
     this.config();
   }

@@ -1,6 +1,6 @@
-import { RequestHandler } from "express";
-import Joi from "joi";
-import BaseMiddleware from "./Middleware";
+import { RequestHandler } from 'express';
+import Joi from 'joi';
+import BaseMiddleware from './Middleware';
 
 class UserMiddleware extends BaseMiddleware {
   public save: RequestHandler = (req, _res, next) => {
@@ -14,7 +14,7 @@ class UserMiddleware extends BaseMiddleware {
     if (invalidPassword) return next(invalidPassword);
 
     return next();
-  }
+  };
 
   public update: RequestHandler = async (req, _res, next) => {
     await this.validateToken(req, _res, next);
@@ -26,7 +26,7 @@ class UserMiddleware extends BaseMiddleware {
     if (invalidEmail) return next(invalidEmail);
 
     return next();
-  }
+  };
 
   public login: RequestHandler = (req, _res, next) => {
     const invalidEmail = this.catchErrorsOnEmail(req.body.email);
@@ -36,7 +36,7 @@ class UserMiddleware extends BaseMiddleware {
     if (invalidPassword) return next(invalidPassword);
 
     return next();
-  }
+  };
 
   public catchErrorsOnName = (name: any): Joi.ValidationError | undefined => {
     const { error } = Joi.object({
@@ -52,9 +52,11 @@ class UserMiddleware extends BaseMiddleware {
     }).validate({ email });
 
     return error;
-  }
+  };
 
-  public catchErrorsOnPassword = (password: any): Joi.ValidationError | undefined  => {
+  public catchErrorsOnPassword = (
+    password: any,
+  ): Joi.ValidationError | undefined => {
     const { error } = Joi.object({
       password: Joi.string().min(4).max(50).required(),
     }).validate({ password });

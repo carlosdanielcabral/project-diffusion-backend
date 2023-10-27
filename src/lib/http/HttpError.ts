@@ -1,17 +1,17 @@
 import HttpStatusCode from './HttpStatusCode';
 
 class HttpError extends Error {
-    private _status: HttpStatusCode;
+  private _status: HttpStatusCode;
 
-    public constructor(status: HttpStatusCode, message: string) {
-        super(message);
+  public constructor(status: HttpStatusCode, message: string) {
+    super(message);
 
-        this._status = status;
-    }
+    this._status = status;
+  }
 
-    get status(): HttpStatusCode {
-        return this._status;
-    }
+  get status(): HttpStatusCode {
+    return this._status;
+  }
 }
 
 export default HttpError;
