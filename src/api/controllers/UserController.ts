@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Token from '../../lib/auth/Token';
 import { IUserService } from '../../lib/interfaces';
 import { TUser } from '../../lib/types';
 import UserService from '../services/UserService';
+import HttpStatusCode from '../../lib/http/HttpStatusCode';
 
 class UserController {
   public constructor(
@@ -12,58 +13,51 @@ class UserController {
     this._service = _service;
   }
 
-  public login = async (req: Request, res: Response, next: NextFunction) => {
+  public login = async (req: Request, res: Response) => {
     const userData = req.body;
-    try {
-      const user = await this._service.login(userData);
 
-      const tokenValue = this._token.generate(user);
+    const user = await this._service.login(userData);
 
-      return res.status(200).json({ token: tokenValue });
-    } catch (err) {
-      return next(err);
-    }
+    const token = this._token.generate(user);
+
+    return res.status(200).json({ token });
+
   };
 
-  public save = async (req: Request, res: Response, next: NextFunction) => {
+  public save = async (req: Request, res: Response) => {
     const userData = req.body;
-    try {
-      const user = await this._service.save(userData);
 
-      const tokenValue = this._token.generate(user);
+    const user = await this._service.save(userData);
 
-      return res.status(201).json({ token: tokenValue });
-    } catch (err) {
-      return next(err);
-    }
+    const token = this._token.generate(user);
+
+    return res.status(HttpStatusCode.Ok).json({ token });
+
   };
 
-  public findAll = async (req: Request, res: Response, next: NextFunction) => {
+  public findAll = async (req: Request, res: Response) => {
     const { name } = req.query;
-    try {
-      let user: TUser[];
 
-      if (name) {
-        user = await this._service.findAllByFilter('name', String(name));
-      } else {
-        user = await this._service.findAll();
-      }
+    let user: TUser[];
 
-      return res.status(200).json(user);
-    } catch (err) {
-      return next(err);
+    if (name) {
+      user = await this._service.findAllByFilter('name', String(name));
+    } else {
+      user = await this._service.findAll();
     }
+
+    return res.status(HttpStatusCode.Ok).json(user);
+
   };
 
-  public update = async (req: Request, res: Response, next: NextFunction) => {
+  public update = async (req: Request, res: Response) => {
     const { user, ...userData } = req.body;
-    try {
-      userData.id = user.id;
-      const response = await this._service.update(userData);
-      return res.status(200).json(response);
-    } catch (err) {
-      return next(err);
-    }
+
+    userData.id = user;
+
+    await this._service.update(userData);
+
+    return res.status(HttpStatusCode.NoContent).end();
   };
 }
 

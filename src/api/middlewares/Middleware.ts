@@ -16,13 +16,7 @@ class BaseMiddleware {
 
     const { data: { id } } = await this._token.validate(token);
 
-    const user = await User.findOne({ where: { id } });
-
-    if (!user) {
-      throw new HttpError(HttpStatusCode.Unauthorized, 'Invalid token');
-    }
-
-    req.body.user = user;
+    req.body.user = id;
 
     return next();
   }
