@@ -1,3 +1,4 @@
+import 'express-async-errors';
 import { Router } from 'express';
 import PostRouter from './PostRouter';
 import UserRouter from './UserRouter';

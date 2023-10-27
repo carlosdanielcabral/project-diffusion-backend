@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import Joi from "joi";
+import BaseMiddleware from "./Middleware";
 
-class UserMiddleware {
+class UserMiddleware extends BaseMiddleware {
   public save: RequestHandler = (req, _res, next) => {
     const invalidName = this.catchErrorsOnName(req.body.name);
     if (invalidName) return next(invalidName);
@@ -15,7 +16,9 @@ class UserMiddleware {
     return next();
   }
 
-  public update: RequestHandler = (req, _res, next) => {
+  public update: RequestHandler = async (req, _res, next) => {
+    await this.validateToken(req, _res, next);
+
     const invalidName = this.catchErrorsOnName(req.body.name);
     if (invalidName) return next(invalidName);
 

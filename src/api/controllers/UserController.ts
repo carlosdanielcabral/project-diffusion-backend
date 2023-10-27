@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import { SignOptions } from 'jsonwebtoken';
 import Token from '../../lib/auth/Token';
-import { JWT_CONFIG } from '../../lib/consts';
 import { IUserService } from '../../lib/interfaces';
 import { TUser } from '../../lib/types';
 import UserService from '../services/UserService';
 
 class UserController {
-  public constructor(private _service: IUserService = new UserService()) {
+  public constructor(
+    private _service: IUserService = new UserService(),
+    private _token = new Token(),
+  ) {
     this._service = _service;
   }
 
@@ -16,8 +17,7 @@ class UserController {
     try {
       const user = await this._service.login(userData);
 
-      const token = new Token(JWT_CONFIG as SignOptions);
-      const tokenValue = token.generate(user);
+      const tokenValue = this._token.generate(user);
 
       return res.status(200).json({ token: tokenValue });
     } catch (err) {
@@ -30,8 +30,7 @@ class UserController {
     try {
       const user = await this._service.save(userData);
 
-      const token = new Token(JWT_CONFIG as SignOptions);
-      const tokenValue = token.generate(user);
+      const tokenValue = this._token.generate(user);
 
       return res.status(201).json({ token: tokenValue });
     } catch (err) {

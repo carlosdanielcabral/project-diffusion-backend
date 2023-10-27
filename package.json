@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "prestart": "npm run build && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:seed:all",
+    "db:reset": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:seed:all",
+    "prestart": "npm run build",
     "start": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "commit": "cz",
     "prepare": "husky install",

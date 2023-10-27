@@ -12,6 +12,7 @@ class PostController {
     const { user, ...postData } = req.body;
     try {
       postData.author = user.id;
+
       const post = await this._service.save(postData);
       return res.status(201).json(post);
     } catch (err) {

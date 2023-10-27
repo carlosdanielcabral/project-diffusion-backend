@@ -1,8 +1,11 @@
 import { RequestHandler } from "express";
 import Joi from "joi";
+import BaseMiddleware from "./Middleware";
 
-class PostMiddleware {
-  public save: RequestHandler = (req, _res, next) => {
+class PostMiddleware extends BaseMiddleware {
+  public save: RequestHandler = async (req, _res, next) => {
+    await this.validateToken(req, _res, next);
+
     const invalidTitle = this.catchErrorsOnTitle(req.body.title)
     if (invalidTitle) return next(invalidTitle);
 
@@ -12,7 +15,9 @@ class PostMiddleware {
     return next();
   }
 
-  public update: RequestHandler = (req, _res, next) => {
+  public update: RequestHandler = async (req, _res, next) => {
+    await this.validateToken(req, _res, next);
+
     const invalidId = this.catchErrorsOnId(req.params.id);
     if (invalidId) return next(invalidId);
 
@@ -25,7 +30,9 @@ class PostMiddleware {
     return next();
   }
 
-  public delete: RequestHandler = (req, _res, next) => {
+  public delete: RequestHandler = async (req, _res, next) => {
+    await this.validateToken(req, _res, next);
+
     const invalidId = this.catchErrorsOnId(req.params.id);
     if (invalidId) return next(invalidId);
 
