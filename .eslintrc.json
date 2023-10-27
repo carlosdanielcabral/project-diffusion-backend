@@ -30,6 +30,9 @@
         "ts": "never"
       }
     ],
+    "no-useless-constructor": 0,
+    "class-methods-use-this": 0,
+    "no-shadow": "off",
     "no-underscore-dangle": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
