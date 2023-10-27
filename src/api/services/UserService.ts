@@ -1,8 +1,8 @@
 import { Op } from 'sequelize';
-import User from '../database/models/User';
-import ErrorHandler from '../helpers/ErrorHandler';
-import { IUserService } from '../interfaces';
-import { TUser, TUserField } from '../types';
+import User from '../../database/models/User';
+import ErrorHandler from '../../lib/ErrorHandler';
+import { IUserService } from '../../lib/interfaces';
+import { TUser, TUserField } from '../../lib/types';
 
 class UserService implements IUserService {
   constructor(private _model = User) {

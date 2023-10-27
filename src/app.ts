@@ -1,14 +1,14 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import RouteFactory from './factories/RouteFactory';
-import ErrorMiddleware from './middlewares/ErrorMiddleware';
+import RouteFactory from './lib/factories/RouteFactory';
+import ErrorMiddleware from './api/middlewares/ErrorMiddleware';
 import swaggerDocument from '../swagger.json';
 
 class App {
   private _app: Express;
 
-  constructor() {
+  constructor(private _route = RouteFactory()) {
     this._app = express();
 
     this._app.get('/', (req, res) => res.status(200).json({ online: true }));
@@ -23,8 +23,8 @@ class App {
   config = () => {
     this._app.use(express.json());
     this._app.use(cors());
-    const route = RouteFactory();
-    this._app.use('/', route.router);
+
+    this._app.use('/', this._route.router);
     this._app.use(
       '/api-docs',
       swaggerUi.serve,

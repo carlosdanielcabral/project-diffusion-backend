@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import Post from '../../database/models/Post';
 import User from '../../database/models/User';
-import PostService from '../../services/PostService';
+import PostService from '../../api/services/PostService';
 import { createdPost } from '../mocks/post';
 import { createdUser } from '../mocks/user';
 

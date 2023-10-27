@@ -1,9 +1,9 @@
 import { Op } from 'sequelize';
-import Post from '../database/models/Post';
-import User from '../database/models/User';
-import ErrorHandler from '../helpers/ErrorHandler';
-import { IPostService } from '../interfaces';
-import { TPost, TPostField } from '../types';
+import Post from '../../database/models/Post';
+import User from '../../database/models/User';
+import ErrorHandler from '../../lib/ErrorHandler';
+import { IPostService } from '../../lib/interfaces';
+import { TPost, TPostField } from '../../lib/types';
 
 class PostService implements IPostService {
   constructor(private _model = Post) {

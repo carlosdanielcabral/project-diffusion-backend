@@ -1,21 +1,17 @@
 import { Router } from 'express';
 import { SignOptions } from 'jsonwebtoken';
-import Token from '../auth/Token';
-import { JWT_CONFIG } from '../consts';
+import Token from '../../lib/auth/Token';
+import { JWT_CONFIG } from '../../lib/consts';
 import PostController from '../controllers/PostController';
 import contentValidation from '../middlewares/contentValidation';
 import idValidation from '../middlewares/idValidation';
 import titleValidation from '../middlewares/titleValidation';
 
 class PostRouter {
-  private _router: Router;
-
-  private _post: PostController;
-
-  constructor(router: Router, post: PostController) {
-    this._router = router;
-    this._post = post;
-
+  constructor(
+    private _router = Router(),
+    private _post = new PostController()
+  ) {
     this.config();
   }
 

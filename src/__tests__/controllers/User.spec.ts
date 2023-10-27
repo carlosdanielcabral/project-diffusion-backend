@@ -5,7 +5,7 @@ import User from '../../database/models/User';
 
 import App from '../../app';
 
-import UserService from '../../services/UserService';
+import UserService from '../../api/services/UserService';
 import { allUsers, createdUser } from '../mocks/user';
 
 chai.use(chaiHttp);

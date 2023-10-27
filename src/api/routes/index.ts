@@ -3,17 +3,11 @@ import PostRouter from './PostRouter';
 import UserRouter from './UserRouter';
 
 class Route {
-  private _router: Router;
-
-  private _user: UserRouter;
-
-  private _post: PostRouter;
-
-  constructor(router: Router, user: UserRouter, post: PostRouter) {
-    this._router = router;
-    this._user = user;
-    this._post = post;
-
+  constructor(
+    private _router: Router,
+    private _user: UserRouter,
+    private _post: PostRouter
+  ) {
     this.config();
   }
 

@@ -1,4 +1,4 @@
-import { TErrorMessage, TPost, TPostField, TUser, TUserField } from '../types';
+import { TErrorMessage, TPost, TPostField, TUser, TUserField } from '../lib/types';
 
 export interface IPostService {
   findAll: () => Promise<TPost[]>;

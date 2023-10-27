@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import User from '../../database/models/User';
-import UserService from '../../services/UserService';
+import UserService from '../../api/services/UserService';
 import { allUsers, createdUser } from '../mocks/user';
 
 describe('Testa o service User', () => {

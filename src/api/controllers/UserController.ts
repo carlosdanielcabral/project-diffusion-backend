@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { SignOptions } from 'jsonwebtoken';
-import Token from '../auth/Token';
-import { JWT_CONFIG } from '../consts';
-import { IUserService } from '../interfaces';
-import { TUser } from '../types';
+import Token from '../../lib/auth/Token';
+import { JWT_CONFIG } from '../../lib/consts';
+import { IUserService } from '../../lib/interfaces';
+import { TUser } from '../../lib/types';
+import UserService from '../services/UserService';
 
 class UserController {
-  constructor(private _service: IUserService) {
+  constructor(private _service: IUserService = new UserService()) {
     this._service = _service;
   }
 

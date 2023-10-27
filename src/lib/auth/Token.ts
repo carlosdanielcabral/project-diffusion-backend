@@ -2,8 +2,8 @@ import * as dotenv from 'dotenv';
 import { Request, NextFunction, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { TUser } from '../types';
-import User from '../database/models/User';
-import ErrorHandler from '../helpers/ErrorHandler';
+import User from '../../database/models/User';
+import ErrorHandler from '../ErrorHandler';
 
 dotenv.config();
 

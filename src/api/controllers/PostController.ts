@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { IPostService } from '../interfaces';
-import { TPost } from '../types';
+import { IPostService } from '../../lib/interfaces';
+import { TPost } from '../../lib/types';
+import PostService from '../services/PostService';
 
 class PostController {
-  constructor(private _service: IPostService) {
+  constructor(private _service: IPostService = new PostService()) {
     this._service = _service;
   }
 

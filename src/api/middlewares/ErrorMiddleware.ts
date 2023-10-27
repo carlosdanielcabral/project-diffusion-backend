@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorHandler from '../helpers/ErrorHandler';
-import { IErrorHandler } from '../interfaces';
+import ErrorHandler from '../../lib/ErrorHandler';
+import { IErrorHandler } from '../../lib/interfaces';
 
 const ErrorMiddleware = (
   err: IErrorHandler,
