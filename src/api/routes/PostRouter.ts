@@ -3,14 +3,13 @@ import { SignOptions } from 'jsonwebtoken';
 import Token from '../../lib/auth/Token';
 import { JWT_CONFIG } from '../../lib/consts';
 import PostController from '../controllers/PostController';
-import contentValidation from '../middlewares/contentValidation';
-import idValidation from '../middlewares/idValidation';
-import titleValidation from '../middlewares/titleValidation';
+import PostMiddleware from '../middlewares/Post.middleware';
 
 class PostRouter {
   public constructor(
     private _router = Router(),
-    private _post = new PostController()
+    private _post = new PostController(),
+    private _middleware = new PostMiddleware(),
   ) {
     this.config();
   }
@@ -24,8 +23,7 @@ class PostRouter {
 
     this._router.post(
       '/',
-      titleValidation,
-      contentValidation,
+      this._middleware.save,
       token.validate,
       this._post.save,
     );
@@ -34,16 +32,14 @@ class PostRouter {
 
     this._router.put(
       '/:id',
-      idValidation,
-      titleValidation,
-      contentValidation,
+      this._middleware.update,
       token.validate,
       this._post.update,
     );
 
     this._router.delete(
       '/:id',
-      idValidation,
+      this._middleware.delete,
       token.validate,
       this._post.remove,
     );
