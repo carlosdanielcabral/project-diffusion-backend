@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
+import 'express-async-errors';
 import RouteFactory from './lib/factories/RouteFactory';
 import ErrorMiddleware from './api/middlewares/ErrorMiddleware';
 import swaggerDocument from '../swagger.json';
