@@ -1,8 +1,9 @@
 import { Op } from 'sequelize';
 import User from '../../database/models/User';
-import ErrorHandler from '../../lib/ErrorHandler';
 import { IUserService } from '../../lib/interfaces';
 import { TUser, TUserField } from '../../lib/types';
+import HttpError from '../../lib/http/HttpError';
+import HttpStatusCode from '../../lib/http/HttpStatusCode';
 
 class UserService implements IUserService {
   public constructor(private _model = User) {
@@ -40,31 +41,31 @@ class UserService implements IUserService {
       raw: true,
     });
 
-    if (!user) throw new ErrorHandler(404, 'User not found');
+    if (!user) {
+      throw new HttpError(HttpStatusCode.NotFound, 'User not found');
+    }
 
     return user;
   };
 
   public login = async (data: TUser): Promise<TUser> => {
-    try {
-      const user = await this.findOne('email', data.email);
+    const user = await this.findOne('email', data.email);
 
-      if (user.password !== data.password) {
-        throw new ErrorHandler(401, 'Invalid email or password');
-      }
-
-      const { password, ...userData } = user;
-
-      return userData;
-    } catch (error) {
-      throw new ErrorHandler(401, 'Invalid email or password');
+    if (user.password !== data.password) {
+      throw new HttpError(HttpStatusCode.BadRequest, 'Invalid email or password');
     }
+
+    const { password, ...userData } = user;
+
+    return userData;
   };
 
   public save = async (data: TUser): Promise<TUser> => {
     const hasUser = await this._model.findOne({ where: { email: data.email } });
 
-    if (hasUser) throw new ErrorHandler(409, 'Email already exists');
+    if (hasUser) {
+      throw new HttpError(HttpStatusCode.Conflict, 'Email already exists');
+    }
 
     return this._model.create(data);
   };

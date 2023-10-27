@@ -1,9 +1,10 @@
 import { Op } from 'sequelize';
 import Post from '../../database/models/Post';
 import User from '../../database/models/User';
-import ErrorHandler from '../../lib/ErrorHandler';
 import { IPostService } from '../../lib/interfaces';
 import { TPost, TPostField } from '../../lib/types';
+import HttpError from '../../lib/http/HttpError';
+import HttpStatusCode from '../../lib/http/HttpStatusCode';
 
 class PostService implements IPostService {
   public constructor(private _model = Post) {
@@ -53,7 +54,9 @@ class PostService implements IPostService {
       raw: true,
     });
 
-    if (!post) throw new ErrorHandler(404, 'Post not found');
+    if (!post) {
+      throw new HttpError(HttpStatusCode.NotFound, 'Post not found');
+    }
 
     return post;
   };
@@ -62,7 +65,7 @@ class PostService implements IPostService {
     const post = await this.findOne('id', postId);
 
     if (post.author !== userId) {
-      throw new ErrorHandler(401, 'Not allowed operation');
+      throw new HttpError(HttpStatusCode.Unauthorized, 'Not allowed operation');
     }
 
     await this._model.destroy({ where: { id: postId } });
@@ -83,8 +86,10 @@ class PostService implements IPostService {
       updatedAt: now,
     };
 
-    if (hasPost) throw new ErrorHandler(409, 'Post already exists');
-
+    if (hasPost) {
+      throw new HttpError(HttpStatusCode.Conflict, 'Post already exists');
+    }
+  
     return this._model.create(newPost);
   };
 
@@ -94,11 +99,11 @@ class PostService implements IPostService {
     });
 
     if (!post) {
-      throw new ErrorHandler(404, 'Post not found');
+      throw new HttpError(HttpStatusCode.NotFound, 'Post not found');
     }
 
     if (post.author !== userId) {
-      throw new ErrorHandler(401, 'Not allowed operation');
+      throw new HttpError(HttpStatusCode.Unauthorized, 'Not allowed operation');
     }
 
     const now = new Date();

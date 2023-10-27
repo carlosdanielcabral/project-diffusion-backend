@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorHandler from '../../lib/ErrorHandler';
 import { IErrorHandler } from '../../lib/interfaces';
+import HttpError from '../../lib/http/HttpError';
 
 const ErrorMiddleware = (
   err: IErrorHandler,
@@ -9,7 +9,7 @@ const ErrorMiddleware = (
   _next: NextFunction,
 ) => {
   console.log(err);
-  if (err instanceof ErrorHandler) {
+  if (err instanceof HttpError) {
     return res.status(err.status).json({ message: err.message });
   }
 

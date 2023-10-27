@@ -3,7 +3,8 @@ import { Request, NextFunction, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { TUser } from '../types';
 import User from '../../database/models/User';
-import ErrorHandler from '../ErrorHandler';
+import HttpError from '../http/HttpError';
+import HttpStatusCode from '../http/HttpStatusCode';
 
 dotenv.config();
 
@@ -37,7 +38,7 @@ class Token {
       const user = await User.findOne({ where: { id } });
 
       if (!user) {
-        throw new ErrorHandler(401, 'Invalid token');
+        throw new HttpError(HttpStatusCode.Unauthorized, 'Invalid token');
       }
 
       req.body.user = user;
