@@ -8,6 +8,7 @@ import App from '../../app';
 import { createdUser } from '../mocks/user';
 import Post from '../../database/models/Post';
 import { createdPost, createdPostJson } from '../mocks/post';
+import HttpStatusCode from '../../lib/http/HttpStatusCode';
 
 chai.use(chaiHttp);
 
@@ -18,6 +19,7 @@ describe('Testa o controller Post', () => {
     Sinon.stub(User, 'findOne').resolves(createdUser as User);
     Sinon.stub(Post, 'findOne').resolves();
     Sinon.stub(Post, 'create').resolves(createdPost as unknown as Post);
+
     const { id, authorData, author, ...postData } = createdPost;
 
     const login = await chai.request(app.app).post('/user/login').send({
@@ -31,8 +33,8 @@ describe('Testa o controller Post', () => {
       .send(postData)
       .set({ authorization: login.body.token });
 
-    expect(response).to.have.status(201);
-    expect(response.body).to.be.deep.equal(createdPostJson);
+    expect(response).to.have.status(HttpStatusCode.NoContent);
+    expect(response.body).to.be.deep.equal({});
 
     (User.findOne as Sinon.SinonStub).restore();
     (Post.create as Sinon.SinonStub).restore();
@@ -40,21 +42,51 @@ describe('Testa o controller Post', () => {
   });
 
   it('02) Verifica se não é possível salvar um post sem fornecer um title', async () => {
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+
     const { id, authorData, author, title, ...postData } = createdPost;
-    const response = await chai.request(app.app).post('/post').send(postData);
-    expect(response).to.have.status(400);
+
+    const login = await chai.request(app.app).post('/user/login').send({
+      email: createdUser.email,
+      password: createdUser.password,
+    });
+
+    const response = await chai
+      .request(app.app)
+      .post('/post')
+      .send(postData)
+      .set({ authorization: login.body.token });
+
+    expect(response).to.have.status(HttpStatusCode.BadRequest);
     expect(response.body).to.be.deep.equal({
       message: '"title" is required',
     });
+
+    (User.findOne as Sinon.SinonStub).restore();
   });
 
   it('03) Verifica se não é possível salvar um post sem fornecer um content', async () => {
+    Sinon.stub(User, 'findOne').resolves(createdUser as User);
+
     const { id, authorData, author, content, ...postData } = createdPost;
-    const response = await chai.request(app.app).post('/post').send(postData);
-    expect(response).to.have.status(400);
+
+    const login = await chai.request(app.app).post('/user/login').send({
+      email: createdUser.email,
+      password: createdUser.password,
+    });
+
+    const response = await chai
+      .request(app.app)
+      .post('/post')
+      .send(postData)
+      .set({ authorization: login.body.token });
+
+    expect(response).to.have.status(HttpStatusCode.BadRequest);
     expect(response.body).to.be.deep.equal({
       message: '"content" is required',
     });
+
+    (User.findOne as Sinon.SinonStub).restore();
   });
 
   it('04) Verifica se é possível obter todos os posts', async () => {
@@ -142,17 +174,20 @@ describe('Testa o controller Post', () => {
     Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
     Sinon.stub(Post, 'destroy').resolves();
 
-    const login = await chai.request(app.app).post('/user/login').send({
-      email: createdUser.email,
-      password: createdUser.password,
-    });
+    const login = await chai
+      .request(app.app)
+      .post('/user/login')
+      .send({
+        email: createdUser.email,
+        password: createdUser.password,
+      });
 
     const response = await chai
       .request(app.app)
       .delete('/post/1')
       .set({ authorization: login.body.token });
 
-    expect(response).to.have.status(200);
+    expect(response).to.have.status(HttpStatusCode.NoContent);
 
     (User.findOne as Sinon.SinonStub).restore();
     (Post.findOne as Sinon.SinonStub).restore();
@@ -165,10 +200,13 @@ describe('Testa o controller Post', () => {
     Sinon.stub(Post, 'findOne').resolves(createdPost as unknown as Post);
     Sinon.stub(Post, 'destroy').resolves();
 
-    const login = await chai.request(app.app).post('/user/login').send({
-      email: createdUser.email,
-      password: createdUser.password,
-    });
+    const login = await chai
+      .request(app.app)
+      .post('/user/login')
+      .send({
+        email: createdUser.email,
+        password: createdUser.password,
+      });
 
     try {
       await chai
