@@ -24,7 +24,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     const response = await chai
@@ -48,7 +48,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     const response = await chai
@@ -72,7 +72,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     const response = await chai
@@ -95,7 +95,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     const response = await chai
@@ -120,7 +120,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     const response = await chai
@@ -150,7 +150,7 @@ describe('Testa o controller Post', () => {
 
     const login = await chai.request(app.app).post('/user/login').send({
       email: createdUser.email,
-      password: createdUser.password,
+      password: 'user01',
     });
 
     try {
@@ -179,7 +179,7 @@ describe('Testa o controller Post', () => {
       .post('/user/login')
       .send({
         email: createdUser.email,
-        password: createdUser.password,
+        password: 'user01',
       });
 
     const response = await chai
@@ -205,7 +205,7 @@ describe('Testa o controller Post', () => {
       .post('/user/login')
       .send({
         email: createdUser.email,
-        password: createdUser.password,
+        password: 'user01',
       });
 
     try {
