@@ -1,4 +1,4 @@
-import Hash from "../../lib/Hash";
+import Hash from '../../lib/Hash';
 
 export const createdUser = {
   id: 1,
