@@ -53,7 +53,7 @@ class UserService implements IUserService {
       );
     }
 
-    const samePassword = Hash.compare(data.password, user.password);
+    const samePassword = await Hash.compare(data.password, user.password);
 
     if (!samePassword) {
       throw new HttpError(
