@@ -8,7 +8,6 @@ import App from '../../app';
 import UserService from '../../api/services/UserService';
 import { allUsers, createdUser } from '../mocks/user';
 import HttpStatusCode from '../../lib/http/HttpStatusCode';
-import Hash from '../../lib/Hash';
 
 chai.use(chaiHttp);
 

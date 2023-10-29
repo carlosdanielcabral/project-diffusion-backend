@@ -4,3 +4,4 @@ dist
 src/database/seeders
 src/database/migrations
 src/database/config
+*.spec.ts
