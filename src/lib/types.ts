@@ -4,12 +4,12 @@ export type TErrorMessage = {
 
 export type TPost = {
   id?: number;
-  author?: number;
+  authorId?: number;
   title?: string;
   content?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  authorData?: {
+  author?: {
     id: number;
     name: string;
   };
@@ -17,7 +17,7 @@ export type TPost = {
 
 export type TPostField =
   | 'id'
-  | 'author'
+  | 'authorId'
   | 'title'
   | 'content'
   | 'createdAt'

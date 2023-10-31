@@ -12,7 +12,7 @@ class PostController {
   public save = async (req: Request, res: Response) => {
     const { user, ...postData } = req.body;
 
-    postData.author = user;
+    postData.authorId = user;
     await this._service.save(postData);
 
     return res.status(HttpStatusCode.NoContent).end();
@@ -23,7 +23,7 @@ class PostController {
     let post: TPost[];
 
     if (author) {
-      post = await this._service.findAllByFilter('author', Number(author));
+      post = await this._service.findAllByFilter('authorId', Number(author));
     } else {
       post = await this._service.findAll();
     }

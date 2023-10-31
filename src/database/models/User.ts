@@ -10,6 +10,10 @@ class User extends Model {
   public email!: string;
 
   public password!: string;
+
+  public createdAt!: Date;
+
+  public updatedAt!: Date;
 }
 
 User.init(
@@ -21,15 +25,17 @@ User.init(
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     sequelize,
     modelName: 'users',
-    timestamps: false,
+    underscored: true,
   },
 );
 
-User.hasMany(Post, { foreignKey: 'author' as 'authorData' });
-Post.belongsTo(User, { foreignKey: 'author', as: 'authorData' });
+User.hasMany(Post, { foreignKey: 'authorId' as 'author' });
+Post.belongsTo(User, { foreignKey: 'authorId', as: 'author' });
 
 export default User;

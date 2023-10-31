@@ -5,6 +5,7 @@ import { IPostService } from '../../lib/interfaces';
 import { TPost, TPostField } from '../../lib/types';
 import HttpError from '../../lib/http/HttpError';
 import HttpStatusCode from '../../lib/http/HttpStatusCode';
+import Category from '../../database/models/Category';
 
 class PostService implements IPostService {
   public constructor(private _model = Post) {
@@ -16,22 +17,42 @@ class PostService implements IPostService {
     value: string | number,
   ): Promise<TPost[]> =>
     this._model.findAll({
-      include: {
-        model: User,
-        attributes: ['id', 'name'],
-        as: 'authorData',
-      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+          as: 'author',
+        },
+        {
+          model: Category,
+          attributes: ['id', 'name'],
+          as: 'categories'
+        }
+      ],
       where: { [field]: { [Op.like]: `%${value}%` } },
       raw: true,
+      attributes: {
+        exclude: ['authorId'],
+      }
     });
 
   public findAll = async (): Promise<TPost[]> =>
     this._model.findAll({
-      include: {
-        model: User,
-        attributes: ['id', 'name'],
-        as: 'authorData',
-      },
+      include:  [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+          as: 'author',
+        },
+        {
+          model: Category,
+          attributes: ['id', 'name'],
+          as: 'categories'
+        }
+      ],
+      attributes: {
+        exclude: ['authorId'],
+      }
     });
 
   public findOne = async (
@@ -40,12 +61,22 @@ class PostService implements IPostService {
   ): Promise<TPost> => {
     const post = await this._model.findOne({
       where: { [field]: value },
-      include: {
-        model: User,
-        attributes: ['id', 'name'],
-        as: 'authorData',
-      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+          as: 'author',
+        },
+        {
+          model: Category,
+          attributes: ['id', 'name'],
+          as: 'categories'
+        }
+      ],
       raw: true,
+      attributes: {
+        exclude: ['authorId'],
+      }
     });
 
     if (!post) {
@@ -58,7 +89,7 @@ class PostService implements IPostService {
   public remove = async (userId: number, postId: number): Promise<TPost> => {
     const post = await this.findOne('id', postId);
 
-    if (post.author !== userId) {
+    if (post.authorId !== userId) {
       throw new HttpError(HttpStatusCode.Unauthorized, 'Not allowed operation');
     }
 
@@ -96,7 +127,7 @@ class PostService implements IPostService {
       throw new HttpError(HttpStatusCode.NotFound, 'Post not found');
     }
 
-    if (post.author !== userId) {
+    if (post.authorId !== userId) {
       throw new HttpError(HttpStatusCode.Unauthorized, 'Not allowed operation');
     }
 
@@ -107,11 +138,21 @@ class PostService implements IPostService {
     await this._model.update(newPost, { where: { id: post.id } });
 
     return this._model.findByPk(data.id, {
-      include: {
-        model: User,
-        attributes: ['id', 'name'],
-        as: 'authorData',
-      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+          as: 'author',
+        },
+        {
+          model: Category,
+          attributes: ['id', 'name'],
+          as: 'categories'
+        }
+      ],
+      attributes: {
+        exclude: ['authorId'],
+      }
     });
   };
 }

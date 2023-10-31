@@ -19,6 +19,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        default: new Date(),
+        field: 'created_at',
+      },
+      updatedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        field: 'updated_at',
+      },
     });
   },
   async down(queryInterface, Sequelize) {

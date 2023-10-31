@@ -9,7 +9,10 @@ class Category extends Model {
 
 Category.init(
   {
-    id: DataTypes.NUMBER,
+    id: {
+      primaryKey: true,
+      type: DataTypes.NUMBER,
+    },
     name: DataTypes.STRING,
   },
   {

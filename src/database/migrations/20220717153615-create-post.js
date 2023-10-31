@@ -16,9 +16,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT,
       },
-      author: {
+      authorId: {
         allowNull: false,
-        field: 'author',
+        field: 'author_id',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         references: {
@@ -30,10 +30,13 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        default: new Date(),
+        field: 'created_at',
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE,
+        field: 'updated_at',
       },
     });
   },

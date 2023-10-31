@@ -1,5 +1,3 @@
-const { default: Hash } = require("../../lib/Hash");
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('users', [
@@ -7,13 +5,9 @@ module.exports = {
         id: 1,
         name: 'User 01',
         email: 'user01@email.com',
-        password: Hash.hash('user01'),
-      },
-      {
-        id: 2,
-        name: 'User 02',
-        email: 'user02@email.com',
-        password: Hash.hash('user02'),
+        /** Admin321 */
+        password: '$2b$10$EaZfh6Ro1EiP.v91ycSP4.Wd3mf69pDRDe9pc1y//sNdh9Ma4yxOS',
+        'created_at': new Date(),
       },
     ]);
   },
